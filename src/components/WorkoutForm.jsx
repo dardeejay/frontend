@@ -12,11 +12,14 @@ export default function WorkoutForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const workout = { title, load, reps };
-    const res = await fetch("/api/workouts", {
-      method: "POST",
-      body: JSON.stringify(workout),
-      headers: { "Content-type": "application/json" },
-    });
+    const res = await fetch(
+      "https://workouts-api-dj.onrender.com/api/workouts",
+      {
+        method: "POST",
+        body: JSON.stringify(workout),
+        headers: { "Content-type": "application/json" },
+      }
+    );
     const json = await res.json();
     if (!res.ok) {
       setError(json.error);

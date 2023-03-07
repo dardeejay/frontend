@@ -9,7 +9,7 @@ export default function Home() {
 
   useEffect(()=>{
     const fetchWorkouts = async () => {
-      const res = await fetch('/api/workouts')
+      const res = await fetch('https://workouts-api-dj.onrender.com//api/workouts')
       const data = await res.json()
       if(res.ok){
         dispatch({type: 'SET_WORKOUTS', payload: data})
