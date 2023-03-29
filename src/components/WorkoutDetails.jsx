@@ -1,5 +1,8 @@
 import React from "react";
 import { useWorkoutContext } from "../hooks/useWorkoutContext";
+
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
+
 const API_URL = process.env.REACT_APP_API_URL;
 export default function WorkoutDetails({ workout }) {
   const { dispatch } = useWorkoutContext();
@@ -24,8 +27,12 @@ export default function WorkoutDetails({ workout }) {
         <strong>Reps: </strong>
         {workout.reps}
       </p>
-      <p>{workout.createdAt}</p>
-      <span onClick={handleClick}>delete</span>
+      <p>
+        {formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}
+      </p>
+      <span class="material-symbols-outlined" onClick={handleClick}>
+        delete
+      </span>
     </div>
   );
 }
