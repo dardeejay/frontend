@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useWorkoutContext } from "../hooks/useWorkoutContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 export default function WorkoutForm() {
   const { dispatch } = useWorkoutContext();
 
@@ -10,16 +11,23 @@ export default function WorkoutForm() {
   const [error, setError] = useState(null);
   const [status, setStatus] = useState("");
   const [emptyFields, setEmptyFields] = useState([]);
-
+  const { user } = useAuthContext();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user) {
+      setError("You must be logged in");
+      return;
+    }
     const workout = { title, load, reps };
     const res = await fetch(
       "https://workouts-api-dj.onrender.com/api/workouts",
       {
         method: "POST",
         body: JSON.stringify(workout),
-        headers: { "Content-type": "application/json" },
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
       }
     );
     const json = await res.json();
